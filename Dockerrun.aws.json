@@ -3,26 +3,6 @@
     "containerDefinitions": [
         {
             "command": [
-                "sh",
-                "-c",
-                "\"aws-env --format=dotenv > .env && sed -i 's/\"//g' .env\""
-            ],
-            "environment": [
-                {
-                    "name": "AWS_ENV_PATH",
-                    "value": "/django/docker/"
-                },
-                {
-                    "name": "AWS_REGION",
-                    "value": "ap-southeast-1"
-                }
-            ],
-            "image": "vincegnzls/test-aws-env",
-            "name": "aws-env",
-            "memory": 128
-        },
-        {
-            "command": [
                 "/start-celerybeat"
             ],
             "image": "vincegnzls/test-celerybeat",
@@ -35,12 +15,7 @@
             ],
             "image": "vincegnzls/test-django",
             "name": "django",
-            "memory": 256,
-            "volumesFrom": [
-                {
-                    "sourceContainer": "aws-env"
-                }
-            ]
+            "memory": 256
         },
         {
             "command": [
