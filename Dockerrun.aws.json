@@ -28,8 +28,7 @@
                 }
             ],
             "links": [
-                "django",
-                "flower"
+                "django"
             ],
             "memory": 128
         },
