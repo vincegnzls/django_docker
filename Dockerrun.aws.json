@@ -3,27 +3,11 @@
     "containerDefinitions": [
         {
             "command": [
-                "/start-celerybeat"
-            ],
-            "image": "vincegnzls/test-celerybeat",
-            "name": "celerybeat",
-            "memory": 128
-        },
-        {
-            "command": [
                 "/start"
             ],
             "image": "vincegnzls/test-django",
             "name": "django",
             "memory": 256
-        },
-        {
-            "command": [
-                "/start-flower"
-            ],
-            "image": "vincegnzls/test-flower",
-            "name": "flower",
-            "memory": 128
         },
         {
             "essential": true,
@@ -43,6 +27,22 @@
                     "hostPort": 5555
                 }
             ],
+            "memory": 128
+        },
+        {
+            "command": [
+                "/start-celerybeat"
+            ],
+            "image": "vincegnzls/test-celerybeat",
+            "name": "celerybeat",
+            "memory": 128
+        },
+        {
+            "command": [
+                "/start-flower"
+            ],
+            "image": "vincegnzls/test-flower",
+            "name": "flower",
             "memory": 128
         }
     ]
