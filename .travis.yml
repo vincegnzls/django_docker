@@ -26,3 +26,7 @@ jobs:
         - "docker-compose -f local.yml run django pytest"
       after_failure:
         - docker-compose -f local.yml logs
+      after_success:
+        - docker-compose -f production.yml build
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+        - docker-compose push

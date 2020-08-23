@@ -328,7 +328,6 @@ django_docker/media/
 
 
 .ipython/
-.env
 
 .envs/*
 

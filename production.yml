@@ -1,8 +1,6 @@
-version: '3'
+version: "3"
 
 volumes:
-  production_postgres_data: {}
-  production_postgres_data_backups: {}
   production_traefik: {}
 
 services:
@@ -10,31 +8,29 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: django_docker_production_django
+    image: vincegnzls/test-django
     depends_on:
-      - postgres
-      - redis
+      - aws-env
     env_file:
-      - ./.envs/.production/.django
-      - ./.envs/.production/.postgres
+      - .env
     command: /start
 
-  postgres:
-    build:
-      context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
-    image: django_docker_production_postgres
-    volumes:
-      - production_postgres_data:/var/lib/postgresql/data
-      - production_postgres_data_backups:/backups
-    env_file:
-      - ./.envs/.production/.postgres
+  # postgres:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/postgres/Dockerfile
+  #   image: django_docker_production_postgres
+  #   volumes:
+  #     - production_postgres_data:/var/lib/postgresql/data
+  #     - production_postgres_data_backups:/backups
+  #   env_file:
+  #     - ./.envs/.production/.postgres
 
   traefik:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: django_docker_production_traefik
+    image: vincegnzls/test-traefik
     depends_on:
       - django
     volumes:
@@ -44,30 +40,43 @@ services:
       - "0.0.0.0:443:443"
       - "0.0.0.0:5555:5555"
 
-  redis:
-    image: redis:5.0
+  # redis:
+  #   image: redis:5.0
 
-  celeryworker:
-    <<: *django
-    image: django_docker_production_celeryworker
-    command: /start-celeryworker
+  # celeryworker:
+  #   <<: *django
+  #   image: django_docker_production_celeryworker
+  #   command: /start-celeryworker
 
   celerybeat:
     <<: *django
-    image: django_docker_production_celerybeat
+    image: vincegnzls/test-celerybeat
     command: /start-celerybeat
 
   flower:
     <<: *django
-    image: django_docker_production_flower
+    image: vincegnzls/test-flower
     command: /start-flower
 
-  
-  awscli:
+  # awscli:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/aws/Dockerfile
+  #   env_file:
+  #     - ./.envs/.production/.django
+  #   volumes:
+  #     - production_postgres_data_backups:/backups
+
+  aws-env:
     build:
       context: .
-      dockerfile: ./compose/production/aws/Dockerfile
-    env_file:
-      - ./.envs/.production/.django
+      dockerfile: ./compose/production/aws-env/Dockerfile
+    image: vincegnzls/test-aws-env
+    environment:
+      - AWS_ENV_PATH=/django/docker/
+      - AWS_REGION=ap-southeast-1
     volumes:
-      - production_postgres_data_backups:/backups
+      - .:/root
+    command: >
+      sh -c "aws-env --format=dotenv > .env &&
+             sed -i 's/\"//g' .env"

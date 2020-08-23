@@ -1,0 +1,99 @@
+{
+    "containerDefinitions": [
+        {
+            "command": [
+                "sh",
+                "-c",
+                "aws-env --format=dotenv > .env &&\n       sed -i 's/\"//g' .env"
+            ],
+            "environment": [
+                {
+                    "name": "AWS_ENV_PATH",
+                    "value": "/django/docker/"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "ap-southeast-1"
+                }
+            ],
+            "essential": true,
+            "image": "vincegnzls/test-aws-env",
+            "mountPoints": [
+                {
+                    "containerPath": "/root",
+                    "sourceVolume": "_"
+                }
+            ],
+            "name": "aws-env",
+            "memory": 128
+        },
+        {
+            "command": [
+                "/start-celerybeat"
+            ],
+            "essential": true,
+            "image": "vincegnzls/test-celerybeat",
+            "name": "celerybeat",
+            "memory": 128
+        },
+        {
+            "command": [
+                "/start"
+            ],
+            "essential": true,
+            "image": "vincegnzls/test-django",
+            "name": "django",
+            "memory": 256
+        },
+        {
+            "command": [
+                "/start-flower"
+            ],
+            "essential": true,
+            "image": "vincegnzls/test-flower",
+            "name": "flower",
+            "memory": 128
+        },
+        {
+            "essential": true,
+            "image": "vincegnzls/test-traefik",
+            "mountPoints": [
+                {
+                    "containerPath": "/etc/traefik/acme",
+                    "sourceVolume": "Production_Traefik"
+                }
+            ],
+            "name": "traefik",
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                },
+                {
+                    "containerPort": 443,
+                    "hostPort": 443
+                },
+                {
+                    "containerPort": 5555,
+                    "hostPort": 5555
+                }
+            ],
+            "memory": 128
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "production_traefik"
+            },
+            "name": "Production_Traefik"
+        },
+        {
+            "host": {
+                "sourcePath": "."
+            },
+            "name": "_"
+        }
+    ]
+}
