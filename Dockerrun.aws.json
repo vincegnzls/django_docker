@@ -7,7 +7,26 @@
             ],
             "image": "vincegnzls/test-django",
             "name": "django",
+            "hostname": "django",
             "memory": 256
+        },
+        {
+            "command": [
+                "/start-celerybeat"
+            ],
+            "image": "vincegnzls/test-celerybeat",
+            "name": "celerybeat",
+            "memory": 128,
+            "hostname": "celerybeat"
+        },
+        {
+            "command": [
+                "/start-flower"
+            ],
+            "image": "vincegnzls/test-flower",
+            "name": "flower",
+            "memory": 128,
+            "hostname": "flower"
         },
         {
             "essential": true,
@@ -28,24 +47,9 @@
                 }
             ],
             "links": [
-                "django"
+                "django",
+                "flower"
             ],
-            "memory": 128
-        },
-        {
-            "command": [
-                "/start-celerybeat"
-            ],
-            "image": "vincegnzls/test-celerybeat",
-            "name": "celerybeat",
-            "memory": 128
-        },
-        {
-            "command": [
-                "/start-flower"
-            ],
-            "image": "vincegnzls/test-flower",
-            "name": "flower",
             "memory": 128
         }
     ]
