@@ -19,13 +19,7 @@
             ],
             "image": "vincegnzls/test-aws-env",
             "name": "aws-env",
-            "memory": 128,
-            "mountPoints": [
-                {
-                    "sourceVolume": "django",
-                    "containerPath": "/root"
-                }
-            ]
+            "memory": 128
         },
         {
             "command": [
@@ -42,10 +36,9 @@
             "image": "vincegnzls/test-django",
             "name": "django",
             "memory": 256,
-            "mountPoints": [
+            "volumesFrom": [
                 {
-                    "sourceVolume": "django",
-                    "containerPath": "/app"
+                    "sourceContainer": "aws-env"
                 }
             ]
         },
@@ -73,12 +66,6 @@
                 {
                     "containerPort": 5555,
                     "hostPort": 5555
-                }
-            ],
-            "mountPoints": [
-                {
-                    "sourceVolume": "production_traefik",
-                    "containerPath": "/etc/traefik/acme"
                 }
             ],
             "memory": 128
