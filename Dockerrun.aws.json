@@ -27,6 +27,9 @@
                     "hostPort": 5555
                 }
             ],
+            "links": [
+                "django"
+            ],
             "memory": 128
         },
         {
