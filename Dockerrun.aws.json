@@ -5,7 +5,7 @@
             "command": [
                 "sh",
                 "-c",
-                "aws-env --format=dotenv > .env && sed -i 's/\"//g' .env"
+                "\"aws-env --format=dotenv > .env && sed -i 's/\"//g' .env\""
             ],
             "environment": [
                 {
@@ -19,7 +19,13 @@
             ],
             "image": "vincegnzls/test-aws-env",
             "name": "aws-env",
-            "memory": 128
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "sourceVolume": "./",
+                    "containerPath": "/root"
+                }
+            ]
         },
         {
             "command": [
@@ -61,6 +67,12 @@
                 {
                     "containerPort": 5555,
                     "hostPort": 5555
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "production_traefik",
+                    "containerPath": "/etc/traefik/acme"
                 }
             ],
             "memory": 128
