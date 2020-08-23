@@ -7,3 +7,4 @@ RUN wget https://github.com/Droplr/aws-env/raw/master/bin/aws-env-linux-amd64 -O
   chmod +x /bin/aws-env
 
 WORKDIR /root
+VOLUME ["/root"]
