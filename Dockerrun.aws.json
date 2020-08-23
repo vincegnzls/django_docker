@@ -8,7 +8,8 @@
             "image": "vincegnzls/test-django",
             "name": "django",
             "hostname": "django",
-            "memory": 256
+            "memory": 256,
+            "essential": true
         },
         {
             "command": [
@@ -29,7 +30,6 @@
             "hostname": "flower"
         },
         {
-            "essential": true,
             "image": "vincegnzls/test-traefik",
             "name": "traefik",
             "dependsOn": [
