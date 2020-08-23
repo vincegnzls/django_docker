@@ -12,7 +12,7 @@ entryPoints:
 http:
   routers:
     web-router:
-      rule: "Host(`asdf.psofficiel.com`)"
+      rule: "Host(`asdf.psofficiel.com`) || Host(`djangocookiecutter-env.eba-ghmkdtxn.ap-southeast-1.elasticbeanstalk.com`)"
       entryPoints:
         - web
       middlewares:
@@ -20,7 +20,7 @@ http:
       service: django
 
     flower-router:
-      rule: "Host(`asdf.psofficiel.com`)"
+      rule: "Host(`asdf.psofficiel.com`) || Host(`djangocookiecutter-env.eba-ghmkdtxn.ap-southeast-1.elasticbeanstalk.com`)"
       entryPoints:
         - flower
       service: flower
