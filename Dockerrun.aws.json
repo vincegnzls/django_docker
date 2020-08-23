@@ -17,12 +17,11 @@
                     "value": "ap-southeast-1"
                 }
             ],
-            "essential": true,
             "image": "vincegnzls/test-aws-env",
             "mountPoints": [
                 {
                     "containerPath": "/root",
-                    "sourceVolume": "_"
+                    "sourceVolume": "Root"
                 }
             ],
             "name": "aws-env",
@@ -32,7 +31,6 @@
             "command": [
                 "/start-celerybeat"
             ],
-            "essential": true,
             "image": "vincegnzls/test-celerybeat",
             "name": "celerybeat",
             "memory": 128
@@ -41,7 +39,6 @@
             "command": [
                 "/start"
             ],
-            "essential": true,
             "image": "vincegnzls/test-django",
             "name": "django",
             "memory": 256
@@ -50,7 +47,6 @@
             "command": [
                 "/start-flower"
             ],
-            "essential": true,
             "image": "vincegnzls/test-flower",
             "name": "flower",
             "memory": 128
@@ -94,7 +90,7 @@
             "host": {
                 "sourcePath": "."
             },
-            "name": "_"
+            "name": "Root"
         }
     ]
 }
