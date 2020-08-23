@@ -50,6 +50,9 @@
                 "django",
                 "flower"
             ],
+            "dependsOn": [
+                "django"
+            ],
             "memory": 128
         }
     ]
