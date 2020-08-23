@@ -29,4 +29,15 @@ jobs:
       after_success:
         - docker-compose -f production.yml build
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-        - docker-compose push
+        - docker-compose -f production.yml push
+      deploy:
+        provider: elasticbeanstalk
+        region: ap-southeast-1
+        app: django-cookiecutter
+        env: DjangoCookiecutter-env
+        bucket_name: elasticbeanstalk-ap-southeast-1-913171412485
+        bucket_path: django-cookiecutter
+        on:
+          branch: master
+        access_key_id: "$AWS_ACCESS_KEY"
+        secret_access_key: "$AWS_SECRET_KEY"

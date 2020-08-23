@@ -4,7 +4,7 @@
             "command": [
                 "sh",
                 "-c",
-                "aws-env --format=dotenv > .env &&\n       sed -i 's/\"//g' .env"
+                "aws-env --format=dotenv > .env && sed -i 's/\"//g' .env"
             ],
             "environment": [
                 {
