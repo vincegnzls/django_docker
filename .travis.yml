@@ -28,10 +28,11 @@ jobs:
       # after_failure:
       #   - docker-compose -f local.yml logs
       after_success:
-        - pip install --user awscli
-        - export PATH=$PATH:$HOME/.local/bin
+        - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        - unzip awscliv2.zip
+        - sudo ./aws/install
         - docker-compose -f production.yml build
-        - eval $(aws ecr get-login --region ap-southeast-1)
+        - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/
         - docker-compose -f production.yml push
       deploy:
         provider: elasticbeanstalk
