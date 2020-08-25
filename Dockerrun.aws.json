@@ -3,6 +3,7 @@
     "containerDefinitions": [
         {
             "command": [
+                "CMD-SHELL",
                 "/start"
             ],
             "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker",
