@@ -5,33 +5,15 @@
             "command": [
                 "/start"
             ],
-            "image": "vincegnzls/test-django",
+            "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker",
             "name": "django",
             "hostname": "django",
             "memory": 256,
             "essential": true
         },
         {
-            "command": [
-                "/start-celerybeat"
-            ],
-            "image": "vincegnzls/test-celerybeat",
-            "name": "celerybeat",
-            "memory": 128,
-            "hostname": "celerybeat"
-        },
-        {
-            "command": [
-                "/start-flower"
-            ],
-            "image": "vincegnzls/test-flower",
-            "name": "flower",
-            "memory": 128,
-            "hostname": "flower"
-        },
-        {
-            "image": "vincegnzls/test-traefik",
-            "name": "traefik",
+            "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker-nginx",
+            "name": "nginx",
             "dependsOn": [
                 {
                     "condition": "SUCCESS",
@@ -42,19 +24,10 @@
                 {
                     "containerPort": 80,
                     "hostPort": 80
-                },
-                {
-                    "containerPort": 443,
-                    "hostPort": 443
-                },
-                {
-                    "containerPort": 5555,
-                    "hostPort": 5555
                 }
             ],
             "links": [
-                "django",
-                "flower"
+                "django"
             ],
             "memory": 128
         }
