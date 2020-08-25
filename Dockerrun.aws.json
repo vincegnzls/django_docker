@@ -16,7 +16,7 @@
             "name": "nginx",
             "dependsOn": [
                 {
-                    "condition": "SUCCESS",
+                    "condition": "START",
                     "containerName": "django"
                 }
             ],
