@@ -2,19 +2,29 @@ version: "3"
 
 volumes:
   production_traefik: {}
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
 
 services:
   django: &django
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: vincegnzls/test-django
+    image: 913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker
     # depends_on:
     #   - aws-env
     # env_file:
-    #   - .env
+    #   - ./.envs/.production/.django
+    #   - ./.envs/.production/.postgres
     command: /start
 
+  nginx:
+    build: ./compose/production/nginx/
+    image: 913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker-nginx
+    depends_on:
+      - django
+    ports:
+      - 80:80
   # postgres:
   #   build:
   #     context: .
@@ -25,38 +35,33 @@ services:
   #     - production_postgres_data_backups:/backups
   #   env_file:
   #     - ./.envs/.production/.postgres
-
-  traefik:
-    build:
-      context: .
-      dockerfile: ./compose/production/traefik/Dockerfile
-    image: vincegnzls/test-traefik
-    depends_on:
-      - django
-    volumes:
-      - production_traefik:/etc/traefik/acme
-    ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-      - "0.0.0.0:5555:5555"
-
+  # traefik:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/traefik/Dockerfile
+  #   image: vincegnzls/test-traefik
+  #   depends_on:
+  #     - django
+  #   volumes:
+  #     - production_traefik:/etc/traefik/acme
+  #   ports:
+  #     - "0.0.0.0:80:80"
+  #     - "0.0.0.0:443:443"
+  #     - "0.0.0.0:5555:5555"
   # redis:
   #   image: redis:5.0
-
   # celeryworker:
   #   <<: *django
   #   image: django_docker_production_celeryworker
   #   command: /start-celeryworker
-
-  celerybeat:
-    <<: *django
-    image: vincegnzls/test-celerybeat
-    command: /start-celerybeat
-
-  flower:
-    <<: *django
-    image: vincegnzls/test-flower
-    command: /start-flower
+  # celerybeat:
+  #   <<: *django
+  #   image: vincegnzls/test-celerybeat
+  #   command: /start-celerybeat
+  # flower:
+  #   <<: *django
+  #   image: vincegnzls/test-flower
+  #   command: /start-flower
   # awscli:
   #   build:
   #     context: .

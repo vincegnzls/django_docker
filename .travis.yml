@@ -3,7 +3,7 @@ dist: xenial
 language: python
 python:
   - "3.8"
-
+sudo: required
 services:
   - docker
 jobs:
@@ -28,16 +28,18 @@ jobs:
       # after_failure:
       #   - docker-compose -f local.yml logs
       after_success:
+        - pip install --user awscli
+        - export PATH=$PATH:$HOME/.local/bin
         - docker-compose -f production.yml build
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+        - eval $(aws ecr get-login --region ap-southeast-1)
         - docker-compose -f production.yml push
       deploy:
         provider: elasticbeanstalk
         region: ap-southeast-1
-        app: django-cookiecutter
-        env: DjangoCookiecutter-env
+        app: django-docker
+        env: DjangoDocker-env-1
         bucket_name: elasticbeanstalk-ap-southeast-1-913171412485
-        bucket_path: django-cookiecutter
+        bucket_path: django-docker
         on:
           branch: master
         access_key_id: "$AWS_ACCESS_KEY"
