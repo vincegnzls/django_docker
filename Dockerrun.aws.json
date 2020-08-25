@@ -3,14 +3,19 @@
     "containerDefinitions": [
         {
             "command": [
-                "CMD-SHELL",
                 "/start"
             ],
             "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker",
             "name": "django",
             "hostname": "django",
             "memory": 256,
-            "essential": false
+            "essential": false,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000
+                }
+            ]
         },
         {
             "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker-nginx",
