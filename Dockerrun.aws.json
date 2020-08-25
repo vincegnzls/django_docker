@@ -9,7 +9,7 @@
             "name": "django",
             "hostname": "django",
             "memory": 256,
-            "essential": true
+            "essential": false
         },
         {
             "image": "913171412485.dkr.ecr.ap-southeast-1.amazonaws.com/django-docker-nginx",
@@ -26,6 +26,7 @@
                     "hostPort": 80
                 }
             ],
+            "essential": true,
             "links": [
                 "django"
             ],
